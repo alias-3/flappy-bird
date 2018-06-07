@@ -93,6 +93,37 @@
         this.text("Your score :"+Math.floor(frameCount/30),can.width-250,30);
       }
 
+      function tree(){
+        for(var i = 0; i<obstacle.length; i+=1)
+        {
+            if(newbird.crash(obstacle[i])) frameRate(0);
+        }
+
+        if(interval(150))
+        {
+          var x = can.width;
+          var y = can.height;
+          var heightmin,heightmax,gapmin,gapmax;
+          heightmax = 250;
+          heightmin = 20;
+          heightactual = Math.floor(Math.random()*(heightmax - heightmin+1) + heightmin);
+          gapmin = 50;
+          gapmax = 150;
+          gapactual = Math.floor(Math.random()*(gapmax - gapmin+1) + gapmin);
+          obstacle.push(new object(x,0,"green",20,heightactual));
+          obstacle.push(new object(x,heightactual + gapactual,"green",20,y-heightactual-gapactual));
+        }
+        for(var j = 0 ;j < obstacle.length; j+=1)
+        {
+          obstacle[j].updatetree();
+        }
+      }
+
+      function interval(n){
+          if(frameCount%n==0)
+            return true;
+          return false;
+      } 
      
 
     </script>
@@ -110,6 +141,6 @@
   </head>
   <body onload="draw()" style="background-image: url(forest_day.png); margin: 20px 20px 20px 20px;">
   	<div class="container row" style="display: block;">
-    <button type="button" class="col-md-4 btn btn-danger btn-lg"><a href="flappybird.html" style="text-decoration: none;color: white;font-weight: bold;"> PLAY!</button></div>
+    <button type="button" class="col-md-4 btn btn-danger btn-lg"><a href="flappybird.html" style="text-decoration: none;color: white;font-weight: bold;"> PLAY!</a></button></div>
   </body>
 </html>
