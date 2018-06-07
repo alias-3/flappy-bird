@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.dom.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+    <script>
+      var newbird;
+      var tree;
+      var can;
+      var n;
+      var obstacle=[];
+      var theight= Math.random(90,150);  
+      
+
+      function setup(){
+        can=createCanvas(600,400);
+        background("#A6D3FF");
+        frameRate(100);
+        newbird = new object(200,100,"yellow",25,25);
+      }
+
+      function draw(){
+        playarea();       
+        score();
+      }
+
+      function playarea(){
+      	createCanvas(600,400);
+        background("#A6D3FF");
+        newbird.updatebird();
+        tree();
+      }
+
+      function object(x,y,color,width,height){
+        this.x=x;
+        this.y=y;
+        this.width=width;
+        this.height=height;
+        fill(color);
+        rect(this.x,this.y,this.width,this.height,7);
+        this.bottom=can.height-this.height;
+        this.gravity=0;
+        this.gravityspeed=0.005;
+        
+
+        this.updatebird= function(){
+          this.gravity+=this.gravityspeed;
+          if(keyIsDown(UP_ARROW) || keyIsDown(32) || mouseIsPressed)
+            this.y-=2;
+          else if(keyIsDown(LEFT_ARROW))
+            this.x-=2;
+          else if(keyIsDown(RIGHT_ARROW))
+            this.x+=2;
+          else if(this.y>=this.bottom){
+            this.y==this.bottom;
+            this.gravity=0;   
+          }
+          else{
+            this.y+=2;
+          }
+          fill(color);
+          rect(this.x,this.y,this.width,this.height,7);
+        }
+        
+
+        this.updatetree = function(){
+          this.x-=1;
+          fill(color);
+          rect(this.x,this.y,this.width,this.height);
+        }
+    
+
+        this.crash = function (treeobj){
+          var birdLeft = this.x;
+          var birdRight = this.x + this.width;
+          var birdTop = this.y;
+          var birdBottom = this.y + this.height;
+          var treeLeft = treeobj.x;
+          var treeRight = treeobj.x + treeobj.width;
+          var treeTop = treeobj.y;
+          var treeBottom = treeobj.y + treeobj.height;
+          var hascrashed = true;
+          if(birdLeft>treeRight||birdRight<treeLeft||birdBottom<treeTop||birdTop>treeBottom)  hascrashed = false;
+          return hascrashed;
+        }
+      }
+
+      function score(){
+        this.textSize(25);
+        fill(0);
+        this.text("Your score :"+Math.floor(frameCount/30),can.width-250,30);
+      }
+
+     
+
+    </script>
+
+    <style type="text/css">
+      body {
+          margin: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+         
+      }
+    </style>
+    <link href="libraries/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body onload="draw()" style="background-image: url(forest_day.png); margin: 20px 20px 20px 20px;">
+  	<div class="container row" style="display: block;">
+    <button type="button" class="col-md-4 btn btn-danger btn-lg"><a href="flappybird.html" style="text-decoration: none;color: white;font-weight: bold;"> PLAY!</button></div>
+  </body>
+</html>
